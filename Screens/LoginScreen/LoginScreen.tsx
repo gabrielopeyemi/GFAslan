@@ -16,14 +16,9 @@ import TextInputu from '../../Components/TextInput/TextInput';
 import Button from '../../Components/Button/Button';
 import Link from '../../Components/Link/Link';
 
-export default function LoginScreen(props: { navigation: { navigate: (arg0: string) => void; }; }) {
-  useEffect(() => {
-    setTimeout(() => {
-      props.navigation.navigate('Login');
-    }, 2000);
-  }, []);
+const LoginScreen = (props: { navigation: { navigate: (arg0: string) => void; }; }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('d');
+  const [password, setPassword] = useState('');
   const handleButton = () => {
     console.log(`${email} ${password}`);
   }
@@ -60,3 +55,4 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
   )
 }
 
+export default LoginScreen;
