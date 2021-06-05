@@ -25,11 +25,8 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('d');
   const handleButton = () => {
-    
+    console.log(`${email} ${password}`);
   }
-  const NavigateTo = () => {
-    props.navigation.navigate('onPress')
-  };
   return (
     <MainControl>
       <Container>
