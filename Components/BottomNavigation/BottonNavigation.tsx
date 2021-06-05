@@ -4,29 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed!</Text>
-    </View>
-  );
-}
-
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
-
-function Notifications() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications!</Text>
-    </View>
-  );
-}
+import { color } from './../../config';
+import ProfileScreen from '../../Screens/ProfileScreen/ProfileScreen';
+import TrackingScreen from '../../Screens/TrackingScreen/TrackingScreen';
+import TransactionScreen from '../../Screens/TransactionScreen/TransactionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,14 +16,14 @@ const BottonNavigation = () => {
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#e91e63',
+        activeTintColor: color.primary,
       }}
     >
       <Tab.Screen
         name="Feed"
-        component={Feed}
+        component={TransactionScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Transaction',
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={size} />
           ),
@@ -50,17 +31,17 @@ const BottonNavigation = () => {
       />
       <Tab.Screen
         name="Notifications"
-        component={Notifications}
+        component={TrackingScreen}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Tracking',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="bell" color={color} size={size} />
+            <Icon name="map" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (

@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default function TransactionScreen() {
+export default function TrackingScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>TransactionScreen!</Text>
+      <Text>TrackingScreen!</Text>
     </View>
   )
 }
