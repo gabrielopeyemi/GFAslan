@@ -1,10 +1,25 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { Container } from '../../Assets/Styles/Auth.Styled';
+
+import { MainControl } from '../../Assets/Styles/Main.Styled'
+import TransactionCard from '../../Components/TransactionCard/TransactionCard';
+import { CardDiv } from './TransactionScreen.style';
 
 export default function TransactionScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>TransactionScreen!</Text>
-    </View>
+    <MainControl>
+      <Container>
+        <CardDiv>
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
+        </CardDiv>
+      </Container>
+    </MainControl>
   )
 }
