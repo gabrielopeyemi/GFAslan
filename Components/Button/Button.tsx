@@ -1,10 +1,17 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { ButtonStyle, ButtonText } from './Button.styled';
 
-export default function Button() {
+export interface ButtonArgs{
+  title: string;
+  handleButton?: any
+}
+export default function Button(props: ButtonArgs) {
+  const { title, handleButton } = props;
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <ButtonStyle
+      onPress={handleButton}
+    >
+      <ButtonText>{ title }</ButtonText>
+    </ButtonStyle>
   )
 }

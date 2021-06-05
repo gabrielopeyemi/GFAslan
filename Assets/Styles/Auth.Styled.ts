@@ -2,11 +2,11 @@ import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 export const Container = styled.View`
   margin: 0px 20px;
   display: flex;
   height: ${windowHeight}px;
-  /* background-color:#002; */
 `;
 
 export const Header = styled.View`
@@ -26,9 +26,10 @@ export const Body = styled.View``;
 
 export const Footer = styled.View`
   display: flex;
-  bottom: 20px;
+  bottom: 40px;
   justify-content: flex-end;
   position: absolute;
+  width: 100%;
 `;
 
 export const FooterText = styled.Text`

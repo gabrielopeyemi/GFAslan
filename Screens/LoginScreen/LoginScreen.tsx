@@ -12,6 +12,8 @@ import {
   Title,
 } from '../../Assets/Styles/Auth.Styled';
 import TextInputu from '../../Components/TextInput/TextInput';
+import Button from '../../Components/Button/Button';
+import Link from '../../Components/Link/Link';
 
 export default function LoginScreen(props: { navigation: { navigate: (arg0: string) => void; }; }) {
   useEffect(() => {
@@ -21,6 +23,9 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
   }, []);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('d');
+  const handleButton = () => {
+    
+  }
   return (
     <MainControl>
       <Container>
@@ -42,7 +47,12 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
           />
         </Body>
         <Footer>
-          <FooterText>Don’t have an account? Register</FooterText>
+          <FooterText>
+            Don’t have an account?
+            {' '}
+            <Link title="Register"/>
+          </FooterText>
+          <Button title='Login' handleButton={handleButton} />
         </Footer>
       </Container>
     </MainControl>
