@@ -6,18 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //Path
 import SplashScreen from './Screens/SplashScreen/SplashScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';
-
-function HomeScreen(props: any) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go Other"
-        onPress={() => props.navigation.navigate('Other')}
-      />
-    </View>
-  );
-}
+import RegisterScreen from './Screens/RegisterScreen/RegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +20,7 @@ function App() {
       >
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -25,13 +25,19 @@ export const SubTitle = styled.Text`
 export const Body = styled.View``;
 
 export const Footer = styled.View`
-  display: flex;
   bottom: 40px;
-  justify-content: flex-end;
   position: absolute;
   width: 100%;
 `;
 
-export const FooterText = styled.Text`
+export const FooterContainer = styled.View`
+  margin: 20px 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+`;
 
+export const FooterText = styled.Text`
+  color: #807E84;
 `;

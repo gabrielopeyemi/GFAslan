@@ -6,6 +6,7 @@ import {
   Body,
   Container,
   Footer,
+  FooterContainer,
   FooterText,
   Header,
   SubTitle,
@@ -26,6 +27,9 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
   const handleButton = () => {
     
   }
+  const NavigateTo = () => {
+    props.navigation.navigate('onPress')
+  };
   return (
     <MainControl>
       <Container>
@@ -47,11 +51,11 @@ export default function LoginScreen(props: { navigation: { navigate: (arg0: stri
           />
         </Body>
         <Footer>
-          <FooterText>
-            Don’t have an account?
-            {' '}
-            <Link title="Register"/>
-          </FooterText>
+          <FooterContainer>
+            <FooterText>Don’t have an account?
+            {' '}</FooterText>
+            <Link title="Register" onPress={() => props.navigation.navigate('Register')} />
+          </FooterContainer>
           <Button title='Login' handleButton={handleButton} />
         </Footer>
       </Container>

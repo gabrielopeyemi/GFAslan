@@ -1,13 +1,15 @@
 import React from 'react';
-import { LinkStyle } from './Link.Style';
+import { LinkStyle, LinkText } from './Link.Style';
 
 interface LinkArgs {
   title?: string;
+  onPress?: any;
 }
 export default function Link(props: LinkArgs) {
+  const { title, onPress } = props;
   return (
-    <LinkStyle>
-      
+    <LinkStyle onPress={onPress}>
+      <LinkText>{ title }</LinkText>
     </LinkStyle>
   )
 }
