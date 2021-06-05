@@ -21,7 +21,8 @@ const RegisterScreen = (props: { navigation: { navigate: (arg0: string) => void;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleButton = () => {
-    console.log(`${email} ${password}`);
+    console.log(`${username} ${email} ${password}`);
+    props.navigation.navigate('BottonNavigation');
   }
   return (
     <MainControl>

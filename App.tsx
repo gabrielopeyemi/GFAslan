@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screens/SplashScreen/SplashScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen/RegisterScreen';
+import BottonNavigation from './Components/BottomNavigation/BottonNavigation';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ function App() {
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="BottonNavigation" component={BottonNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

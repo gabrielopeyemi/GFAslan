@@ -21,6 +21,7 @@ const LoginScreen = (props: { navigation: { navigate: (arg0: string) => void; };
   const [password, setPassword] = useState('');
   const handleButton = () => {
     console.log(`${email} ${password}`);
+    props.navigation.navigate('BottonNavigation');
   }
   return (
     <MainControl>
