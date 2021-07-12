@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import { useDispatch } from 'react-redux';
 //Paths
 import {MainControl} from '../../Assets/Styles/Main.Styled';
 import {
@@ -15,15 +15,28 @@ import {
 import TextInputu from '../../Components/TextInput/TextInput';
 import Button from '../../Components/Button/Button';
 import Link from '../../Components/Link/Link';
+import LoginFunction from './LoginFunction';
 
 const LoginScreen = (props: {
   navigation: {navigate: (arg0: string) => void};
 }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const handleButton = () => {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('famosipe2010@gmail.com');
+  const [password, setPassword] = useState('opeyemi');
+
+  const handleButton = async () => {
     console.log(`${email} ${password}`);
-    props.navigation.navigate('BottonNavigation');
+    try {
+      const response = await LoginFunction({email, password});
+      console.log(response);
+      dispatch({
+        type: 'LOGIN',
+        payload: response,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    // props.navigation.navigate('BottomNavigation');
   };
   return (
     <MainControl>
