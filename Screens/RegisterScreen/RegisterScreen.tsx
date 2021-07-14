@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 //Paths
-import { MainControl } from '../../Assets/Styles/Main.Styled';
+import {MainControl} from '../../Assets/Styles/Main.Styled';
 import {
   Body,
   Container,
@@ -16,14 +16,16 @@ import TextInputu from '../../Components/TextInput/TextInput';
 import Button from '../../Components/Button/Button';
 import Link from '../../Components/Link/Link';
 
-const RegisterScreen = (props: { navigation: { navigate: (arg0: string) => void; }; }) => {
-  const [username, setUsername] = useState('')
+const RegisterScreen = (props: {
+  navigation: {navigate: (arg0: string) => void};
+}) => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleButton = () => {
     console.log(`${username} ${email} ${password}`);
     props.navigation.navigate('BottonNavigation');
-  }
+  };
   return (
     <MainControl>
       <Container>
@@ -51,15 +53,17 @@ const RegisterScreen = (props: { navigation: { navigate: (arg0: string) => void;
         </Body>
         <Footer>
           <FooterContainer>
-            <FooterText>Don’t have an account?
-            {' '}</FooterText>
-            <Link title="Login" onPress={() => props.navigation.navigate('Login')} />
+            <FooterText>Don’t have an account? </FooterText>
+            <Link
+              title="Login"
+              onPress={() => props.navigation.navigate('Login')}
+            />
           </FooterContainer>
-          <Button title='Register' handleButton={handleButton} />
+          <Button title="Register" handleButton={handleButton} />
         </Footer>
       </Container>
     </MainControl>
-  )
-}
+  );
+};
 
 export default RegisterScreen;

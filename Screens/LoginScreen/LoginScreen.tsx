@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import Toast from 'react-native-simple-toast';
+import NetInfo from '@react-native-community/netinfo';
 //Paths
 import {MainControl} from '../../Assets/Styles/Main.Styled';
 import {
@@ -16,6 +18,7 @@ import TextInputu from '../../Components/TextInput/TextInput';
 import Button from '../../Components/Button/Button';
 import Link from '../../Components/Link/Link';
 import LoginFunction from './LoginFunction';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 const LoginScreen = (props: {
   navigation: {navigate: (arg0: string) => void};
@@ -23,9 +26,23 @@ const LoginScreen = (props: {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('famosipe2010@gmail.com');
   const [password, setPassword] = useState('opeyemi');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [netWorkIsConnected, setNetWorkIsConnected] = useState<any>(false);
+  React.useEffect(() => {
+    NetInfo.fetch().then(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      setNetWorkIsConnected(state.isConnected);
+    });
+  }, []);
 
   const handleButton = async () => {
     console.log(`${email} ${password}`);
+    if (!netWorkIsConnected) {
+      Toast.show('no internet connection');
+      return;
+    }
+    setIsLoading(true);
     try {
       const response = await LoginFunction({email, password});
       console.log(response);
@@ -33,11 +50,17 @@ const LoginScreen = (props: {
         type: 'LOGIN',
         payload: response,
       });
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
+      return Toast.show(error.response.data);
     }
-    // props.navigation.navigate('BottomNavigation');
+    props.navigation.navigate('BottomNavigation');
   };
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
   return (
     <MainControl>
       <Container>

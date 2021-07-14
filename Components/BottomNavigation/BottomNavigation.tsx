@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {color} from '../../config';
+import {primaryColor} from '../../config';
 import ProfileScreen from '../../Screens/ProfileScreen/ProfileScreen';
 import TrackingScreen from '../../Screens/TrackingScreen/TrackingScreen';
 import TransactionScreen from '../../Screens/TransactionScreen/TransactionScreen';
@@ -16,7 +16,7 @@ const BottomNavigation = () => {
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: color.primary,
+        activeTintColor: primaryColor,
       }}>
       <Tab.Screen
         name="Feed"

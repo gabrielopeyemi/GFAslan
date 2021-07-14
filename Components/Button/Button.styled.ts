@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
-import { color } from '../../config';
-import { Dimensions } from 'react-native';
+import {primaryColor} from '../../config';
+import {Dimensions} from 'react-native';
 
 const windowHeight = Dimensions.get('window').height;
-const { primary } = color;
+
 export const ButtonStyle = styled.TouchableOpacity`
   width: 100%;
-  background-color: ${primary};
+  background-color: ${primaryColor};
   display: flex;
   align-content: center;
   align-self: center;
@@ -15,7 +15,7 @@ export const ButtonStyle = styled.TouchableOpacity`
 `;
 
 export const ButtonText = styled.Text`
-  color: #F3EFFA;
+  color: #f3effa;
   align-items: center;
   margin: 15px;
   font-size: 20px;

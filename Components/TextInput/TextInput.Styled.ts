@@ -1,13 +1,12 @@
 import styled from 'styled-components/native';
-import { color } from './../../config';
+import {primaryColor} from './../../config';
 
-const { primary } = color;
 export const TextInputStyle = styled.TextInput`
-  border: 1px solid ${primary};
+  border: 1px solid ${primaryColor};
   border-radius: 15px;
-  background-color: #B1ACBA;
+  background-color: #b1acba;
   width: 100%;
-  color: ${primary};
+  color: ${primaryColor};
   font-size: 18px;
   display: flex;
   padding-left: 20px;

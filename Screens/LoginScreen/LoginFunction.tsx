@@ -16,7 +16,7 @@ const LoginFunction = async ({email, password}: Props) => {
     console.log({loginLog: response.data});
     return response.data;
   } catch (error) {
-    console.log({error});
+    console.log({error: error.response.data});
     throw error;
   }
 };
