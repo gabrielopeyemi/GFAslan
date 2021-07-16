@@ -2,7 +2,7 @@
 import React from 'react';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_MAPS_APIKEY} from '../../config';
-import {Container, Label} from './styles';
+import {Container, Label} from './SelectLocation.styles';
 
 interface ChoosePickupProps {
   placeholder: string;
@@ -10,7 +10,7 @@ interface ChoosePickupProps {
   setLocation?: any;
 }
 
-const ChooseLocation = ({
+const SelectLocation = ({
   placeholder,
   fetchAddressCords,
   setLocation,
@@ -64,4 +64,4 @@ const ChooseLocation = ({
   );
 };
 
-export default ChooseLocation;
+export default SelectLocation;

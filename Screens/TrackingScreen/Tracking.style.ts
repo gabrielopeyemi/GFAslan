@@ -1,15 +1,20 @@
 import styled from 'styled-components/native';
 
-export const BottomView = styled.View`
+export const TopView = styled.View`
   position: absolute;
-  bottom: 50px;
+  top: 0px;
   background-color: #fff;
   width: 100%;
   padding: 20px;
   text-align: center;
   align-items: center;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+`;
+
+export const CasView = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const BottomText = styled.Text`
@@ -19,4 +24,7 @@ export const BottomText = styled.Text`
   color: #fff;
   text-align: center;
   font-weight: 500;
+  display: flex;
+  flex-direction: row;
 `;
+

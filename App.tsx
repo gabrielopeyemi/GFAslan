@@ -9,7 +9,9 @@ import RegisterScreen from './Screens/RegisterScreen/RegisterScreen';
 import BottomNavigation from './Components/BottomNavigation/BottomNavigation';
 import SendPackage from './Screens/SendPackage';
 import store from './store';
-
+import AddTransactionScreen from './Screens/AddTransactionScreen/AddTransactionScreen';
+import ShowItemLocation from './Screens/TrackingScreen/ShowItemLocationScreen';
+// import 'app.css';
 const Stack = createStackNavigator();
 
 function App() {
@@ -25,6 +27,11 @@ function App() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="SendPackage" component={SendPackage} />
           <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+          <Stack.Screen name="ShowItemLocation" component={ShowItemLocation} />
+          <Stack.Screen
+            name="AddTransaction"
+            component={AddTransactionScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

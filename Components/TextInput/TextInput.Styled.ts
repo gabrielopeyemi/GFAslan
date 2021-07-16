@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
-import {primaryColor} from './../../config';
+import {borderRadius, inputBGColor, primaryColor} from './../../config';
 
 export const TextInputStyle = styled.TextInput`
   border: 1px solid ${primaryColor};
-  border-radius: 15px;
-  background-color: #b1acba;
+  border-radius: ${borderRadius}px;
+  background-color: ${inputBGColor};
   width: 100%;
   color: ${primaryColor};
   font-size: 18px;

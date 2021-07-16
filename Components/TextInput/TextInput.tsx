@@ -1,26 +1,21 @@
 import React from 'react';
-import { TextInputStyle } from './TextInput.Styled';
+import {TextInputStyle} from './TextInput.Styled';
 
-export interface InputArgs{
+export interface InputArgs {
   text?: string;
   onChangeText?: any;
   placeholder?: string;
-  value?: string
+  value?: string;
 }
 export default function TextInput(props: InputArgs) {
-  const {
-    text,
-    placeholder,
-    onChangeText,
-    value,
-  } = props;
+  const {placeholder, onChangeText, value} = props;
   const handleText = (text: string): any => onChangeText(text);
-  return ( 
+  return (
     <TextInputStyle
       onChangeText={handleText}
       placeholder={placeholder}
       value={value}
       editable
     />
-  )
+  );
 }

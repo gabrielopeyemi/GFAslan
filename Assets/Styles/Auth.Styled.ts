@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
+
 export const Container = styled.View`
   margin: 0px 20px;
   display: flex;
