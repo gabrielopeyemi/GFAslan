@@ -16,10 +16,7 @@ import {
   StatusButton,
   StatusButtonText,
 } from './Transaction.style';
-const screen = Dimensions.get('window');
-const ASPECT_RATIO = screen.width / screen.height;
-const LATITUDE_DELTA = 0.9222;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 interface PropsArgs {
   transaction: any;
@@ -28,31 +25,14 @@ interface PropsArgs {
 export default function TransactionCard({transaction, navigation}: PropsArgs) {
   console.log({transaction});
   const [statusColor, setStatusColor] = React.useState('black');
-  const {status, name, description, destination, createdAt} = transaction;
+  const {status, name, description, destination, createdAt, _id} = transaction;
   React.useEffect(() => {
     if (status === 'not-in-transit') {
       return setStatusColor('red');
     }
   }, []);
-  const Location: any = {
-    driver: {
-      latitude: 7.293186279820373,
-      longitude: 5.149915105760385,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    },
-    destination: {
-      latitude: 7.291403,
-      longitude: 5.142603,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    },
-  };
   return (
-    <CardStyle
-      onPress={() =>
-        navigation.navigate('ShowItemLocation', {Locations: Location})
-      }>
+    <CardStyle onPress={() => navigation.navigate('EachItem', {data: _id})}>
       {/* Head */}
       <CardHeader>
         <View>

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 
 //Paths
@@ -15,16 +16,32 @@ import {
 import TextInputu from '../../Components/TextInput/TextInput';
 import Button from '../../Components/Button/Button';
 import Link from '../../Components/Link/Link';
+import {Text} from 'react-native';
+import Toast from 'react-native-simple-toast';
 
-const RegisterScreen = (props: {
+const RegisterScreenOne = (props: {
   navigation: {navigate: (arg0: string) => void};
 }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('Opeyemi Gabriel Famosipe');
+  const [email, setEmail] = useState('info.techjar@gmail.com');
+  const [username, setUsername] = useState('Gabby');
   const handleButton = () => {
-    console.log(`${username} ${email} ${password}`);
-    props.navigation.navigate('BottonNavigation');
+    console.log(`${fullName} ${email} ${username}`);
+    const data: any = {
+      fullName,
+      email,
+      username,
+    };
+    if (fullName || email || username) {
+      let rjx = /^([a-zA-Z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2.8})?$/;
+      let isValid = rjx.test(email);
+      if (!isValid) {
+        return Toast.show('Invalid Email');
+      }
+      props.navigation.navigate('RegisterTwo', {data});
+    } else {
+      return Toast.show('Please complete the field');
+    }
   };
   return (
     <MainControl>
@@ -35,10 +52,11 @@ const RegisterScreen = (props: {
           <SubTitle>have you</SubTitle>
         </Header>
         <Body>
+          <Text style={{fontWeight: '700', marginLeft: 10}}>Step 1/2</Text>
           <TextInputu
-            placeholder="Username"
-            onChangeText={setUsername}
-            value={username}
+            placeholder="Full Name"
+            onChangeText={setFullName}
+            value={fullName}
           />
           <TextInputu
             placeholder="Email"
@@ -46,9 +64,9 @@ const RegisterScreen = (props: {
             value={email}
           />
           <TextInputu
-            placeholder="Password"
-            onChangeText={setPassword}
-            value={password}
+            placeholder="Username"
+            onChangeText={setUsername}
+            value={username}
           />
         </Body>
         <Footer>
@@ -59,11 +77,11 @@ const RegisterScreen = (props: {
               onPress={() => props.navigation.navigate('Login')}
             />
           </FooterContainer>
-          <Button title="Register" handleButton={handleButton} />
+          <Button title="Next" handleButton={handleButton} />
         </Footer>
       </Container>
     </MainControl>
   );
 };
 
-export default RegisterScreen;
+export default RegisterScreenOne;

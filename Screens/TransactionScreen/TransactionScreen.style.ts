@@ -42,7 +42,7 @@ export const ProfileView = styled.View`
 
 export const ProfileText = styled.Text`
   color: #fff;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 25px;
 `;
 

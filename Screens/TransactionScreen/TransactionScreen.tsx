@@ -51,7 +51,7 @@ export default function TransactionScreen(props: any) {
             <ProfileView>
               <ProfileText>G</ProfileText>
             </ProfileView>
-            <ProfileName>{user.firstName}</ProfileName>
+            <ProfileName>{user.username}</ProfileName>
           </HeaderLeft>
           <HeaderRight>
             <Icon.Button

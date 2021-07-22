@@ -8,6 +8,7 @@ export const Container = styled.View`
   margin: 0px 20px;
   display: flex;
   height: ${windowHeight}px;
+  margin-bottom: 50px;
 `;
 
 export const Header = styled.View`
@@ -26,8 +27,8 @@ export const SubTitle = styled.Text`
 export const Body = styled.View``;
 
 export const Footer = styled.View`
-  bottom: 40px;
-  position: absolute;
+  /* bottom: 40px;
+  position: absolute; */
   width: 100%;
 `;
 

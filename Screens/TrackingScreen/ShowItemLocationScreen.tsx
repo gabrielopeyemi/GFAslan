@@ -44,8 +44,9 @@ export default function ShowItemLocation(props: PropsArgs) {
     longitudeDelta: LONGITUDE_DELTA,
   });
   React.useEffect(() => {
-    console.log({Bali: props.route.params.Locations});
-    const {driver, destination} = props.route.params.Locations;
+    console.log({Bali: props.route.params.locations});
+    const {driver, destination} = props.route.params.locations;
+    console.log({driver: driver.longitude, destination});
     setDropLocationCords(destination);
     setCurLoc(driver);
   }, []);
@@ -65,9 +66,12 @@ export default function ShowItemLocation(props: PropsArgs) {
     <MainControl>
       <MapView
         ref={mapRef}
-        style={StyleSheet.absoluteFill}
+        style={{
+          width: screen.width,
+          height: screen.height,
+        }}
         initialRegion={curLoc}>
-        <Marker coordinate={dropLocationCords} image={imagePath.car} />
+        <Marker coordinate={dropLocationCords} />
         <Marker coordinate={curLoc} image={imagePath.car} />
         <MapViewDirections
           origin={curLoc}
@@ -103,13 +107,13 @@ export default function ShowItemLocation(props: PropsArgs) {
               {' '} Back
             </Icon>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('back')}>
+          {/* <TouchableOpacity onPress={() => console.log('back')}>
             <Icon
               name="ios-chevron-back-circle-sharp"
               onPress={() => props.navigation.navigate('AddTransaction')}>
               {' '} Back
             </Icon>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </CasView>
       </TopView>
     </MainControl>

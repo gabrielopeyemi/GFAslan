@@ -1,25 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {ReactNode} from 'react';
-import {ScrollView } from 'react-native';
-import ChooseLocation from '../../Components/ChooseLocation';
+import {ScrollView} from 'react-native';
 import ChooseLocationButton from '../../Components/ChooseLocationButton';
+import TextInput from '../../Components/TextInput/TextInput';
 
-import {Container} from './styles';
+import {Container} from './GetSingleTransaction.styles';
+import Toast from 'react-native-simple-toast';
 
 interface SendPackageProps {
   children: ReactNode;
 }
 
 function SendPackage({children}: SendPackageProps) {
-  const [curLoc, setCurLoc] = React.useState({});
+  const [packageID, setPackageID] = React.useState('');
 
   const onDone = () => {
-    console.log(curLoc);
-  };
-
-  const fetchPickupCords = (lat: number, log: number) => {
-    console.log('Log ====>', log);
-    setCurLoc(...curLoc);
+    if (!packageID) {
+      Toast.show('input the package ID');
+      return;
+    }
   };
   return (
     <Container
@@ -29,19 +28,13 @@ function SendPackage({children}: SendPackageProps) {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         style={{flex: 1, padding: 24}}>
-        <ChooseLocation
-          placeholder={'Enter pickup location'}
-          fetchAddressCords={fetchPickupCords}
-          setLocation={setCurLoc}
+        <TextInput
+          placeholder={'Enter package ID'}
+          onChangeText={setPackageID}
+          value={packageID}
         />
-
-        <ChooseLocation
-          placeholder={'Enter destination location'}
-          // fetchAddressCords={fetchDestinationCords}
-        />
-
         <ChooseLocationButton
-          text="Done"
+          text="Where?"
           btnStyle={{
             marginTop: 24,
           }}

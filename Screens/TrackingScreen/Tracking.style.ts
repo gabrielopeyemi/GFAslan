@@ -28,3 +28,13 @@ export const BottomText = styled.Text`
   flex-direction: row;
 `;
 
+export const BottomView = styled.View`
+  position: absolute;
+  border-radius: 0px;
+  background-color: #fff;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  bottom: 40px;
+`;

@@ -18,10 +18,9 @@ export const Header = styled.View`
 
 export const HeaderLeft = styled.Text`
   font-size: 23px;
-  font-weight: 900;
-  /* font-family: 'Poppins', sans-serif; */
+  font-weight: 600;
 `;
 
 export const HeaderRight = styled.View`
-  
+  font-weight: 700;
 `;

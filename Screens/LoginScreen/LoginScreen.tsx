@@ -51,12 +51,26 @@ const LoginScreen = (props: {
         payload: response,
       });
       setIsLoading(false);
+      switch (response.userDetails.permission) {
+        case 'normal':
+          console.log('this is user');
+          props.navigation.navigate('BottomNavigation');
+          break;
+        case 'driver':
+          console.log('this is a driver');
+          break;
+        case 'admin':
+          console.log('this is admin');
+          props.navigation.navigate('BottomNavigationAdmin');
+          break;
+        default:
+          console.log('who are u?');
+      }
     } catch (error) {
-      console.log(error);
+      console.log({error});
       setIsLoading(false);
       return Toast.show(error.response.data);
     }
-    props.navigation.navigate('BottomNavigation');
   };
   if (isLoading) {
     return <LoadingIndicator />;
@@ -86,7 +100,7 @@ const LoginScreen = (props: {
             <FooterText>Don’t have an account? </FooterText>
             <Link
               title="Register"
-              onPress={() => props.navigation.navigate('Register')}
+              onPress={() => props.navigation.navigate('RegisterOne')}
             />
           </FooterContainer>
           <Button title="Login" handleButton={handleButton} />

@@ -6,9 +6,10 @@ export interface InputArgs {
   onChangeText?: any;
   placeholder?: string;
   value?: string;
+  keyboardType?: string;
 }
 export default function TextInput(props: InputArgs) {
-  const {placeholder, onChangeText, value} = props;
+  const {placeholder, onChangeText, value, keyboardType} = props;
   const handleText = (text: string): any => onChangeText(text);
   return (
     <TextInputStyle
@@ -16,6 +17,7 @@ export default function TextInput(props: InputArgs) {
       placeholder={placeholder}
       value={value}
       editable
+      keyboardType={keyboardType ? keyboardType : 'default'}
     />
   );
 }

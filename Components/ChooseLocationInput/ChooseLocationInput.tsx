@@ -12,17 +12,19 @@ import {Container} from './ChooseLocationInput.styles';
 interface PropsArgs {
   setLocation: any;
   FetchLatLog: any;
+  placeholder?: string;
 }
 function ChooseLocationInput(props: PropsArgs) {
   const onPressAddress = (data: any, details: any) => {
     const lat = details.geometry.location.lat;
     const lng = details.geometry.location.lng;
-    props.FetchLatLog(lat, lng);
+    const address = details.formatted_address;
+    props.FetchLatLog({lat, lng, address});
   };
   return (
     <Container style={{flex: 1}}>
       <GooglePlacesAutocomplete
-        placeholder="Search"
+        placeholder={props.placeholder ? props.placeholder : 'enter location'}
         onPress={onPressAddress}
         fetchDetails={true}
         query={{

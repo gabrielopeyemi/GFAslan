@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Text,
@@ -67,7 +68,7 @@ export default function TrackingScreen({navigation}: PropsArgs) {
 
   const animate = (latitude: any, longitude: any) => {
     const newCoordinate = {latitude, longitude};
-    if (Platform.OS == 'android') {
+    if (Platform.OS === 'android') {
       if (markerRef.current) {
         markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
       }
@@ -80,9 +81,12 @@ export default function TrackingScreen({navigation}: PropsArgs) {
     <MainControl>
       <MapView
         ref={mapRef}
-        style={StyleSheet.absoluteFill}
+        style={{
+          width: screen.width,
+          height: screen.height,
+        }}
         initialRegion={curLoc}>
-        <Marker coordinate={dropLocationCords} image={imagePath.car} />
+        <Marker coordinate={dropLocationCords} />
         <Marker coordinate={curLoc} image={imagePath.car} />
         <MapViewDirections
           origin={curLoc}
@@ -109,7 +113,7 @@ export default function TrackingScreen({navigation}: PropsArgs) {
         />
       </MapView>
       <BottomView style={{flex: 1}}>
-        <Text>Where are you sending to?</Text>
+        <Text>Where is my package?</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('SendPackage')}
           style={{width: '100%', marginTop: 10}}>
