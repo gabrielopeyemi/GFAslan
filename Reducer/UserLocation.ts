@@ -1,18 +1,18 @@
 import {initialState} from '.';
 import {ActionTypes} from '../Components/Types/ActionTypes';
 
-const UserDetailReducer = (
-  state = initialState.UserDetail,
+const LocationReducer = (
+  state = initialState.Location,
   action: ActionTypes,
 ) => {
   switch (action.type) {
-    case 'LOGIN':
+    case 'LOCATION':
       return {
-        UserDetail: action.payload,
+        PresentLocation: action.payload,
       };
     default:
       return state;
   }
 };
 
-export default UserDetailReducer;
+export default LocationReducer;

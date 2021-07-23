@@ -10,4 +10,4 @@ export const borderRadius: number = 15;
 
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyCA5537wJQkOqNmtozatmJwTorQS0uX4u4';
 
-export const APIURL = 'https://03ab8204e258.ngrok.io';
+export const APIURL = 'http://1cef83726e8a.ngrok.io';

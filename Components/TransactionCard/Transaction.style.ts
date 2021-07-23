@@ -63,6 +63,7 @@ export const CardFooterSenderTextBold = styled.Text`
 `;
 
 export const CardFooterSenderTextlight = styled.Text`
-  font-size: 15px;
+  font-size: 13px;
   color: #21123f;
+  font-weight: 700;
 `;

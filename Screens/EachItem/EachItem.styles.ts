@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { borderRadius, primaryColor } from '../../config';
+import {borderRadius, primaryColor} from '../../config';
 
 export const Container = styled.ScrollView`
   margin: 20px;
@@ -20,10 +20,18 @@ export const TitleView = styled.View`
   align-items: center;
 `;
 
-export const TitleViewStatus = styled.Text<{color?: string}>`
+export const TitleStatusView = styled.View`
+  /* width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between; */
+`;
+
+export const TitleStatusViewLeft = styled.View``;
+
+export const TitleStatusViewRight = styled.View``;
+
+export const TitleStatus = styled.Text<{color?: string}>`
   color: ${p => (p.color ? p.color : 'blue')};
 `;
 

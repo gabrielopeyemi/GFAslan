@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {View} from 'react-native';
 import moment from 'moment';
 import TransactionArgs from '../../Screens/TransactionScreen/Transaction.dto';
 import {
@@ -16,7 +16,6 @@ import {
   StatusButton,
   StatusButtonText,
 } from './Transaction.style';
-
 
 interface PropsArgs {
   transaction: any;
@@ -54,15 +53,13 @@ export default function TransactionCard({transaction, navigation}: PropsArgs) {
       {/* Footer */}
       <CardFooter>
         <CardFooterSender>
-          <CardFooterSenderTextBold>{destination}</CardFooterSenderTextBold>
-          <CardFooterSenderTextlight>
-            No 18, Harmory st, Eleyele, Ibadan.
-          </CardFooterSenderTextlight>
+          {/* <CardFooterSenderTextBold></CardFooterSenderTextBold> */}
+          <CardFooterSenderTextlight>{destination}</CardFooterSenderTextlight>
         </CardFooterSender>
         <CardFooterSender>
           <CardFooterSenderTextBold>Ibadan, Nigeria</CardFooterSenderTextBold>
           <CardFooterSenderTextlight>
-            No 18, Harmory st, Eleyele, Ibadan.
+            No 18, Harmony st, Eleyele, Ibadan.
           </CardFooterSenderTextlight>
         </CardFooterSender>
       </CardFooter>

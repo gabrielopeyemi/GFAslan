@@ -62,6 +62,12 @@ export default function ProfileScreen(props: any) {
           <ProfileValue>{gender}</ProfileValue>
         </ProfileContainer>
         <ProfileContainer>
+          <ProfileHead>UserType</ProfileHead>
+          <ProfileValue>
+            {permission === 'normal' ? 'Customer' : permission}
+          </ProfileValue>
+        </ProfileContainer>
+        <ProfileContainer>
           <ProfileHead>Language</ProfileHead>
           <ProfileValue>English</ProfileValue>
         </ProfileContainer>

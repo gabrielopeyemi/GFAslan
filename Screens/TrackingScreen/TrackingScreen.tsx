@@ -17,6 +17,8 @@ import {
 } from '../../helper/helperfunction';
 import imagePath from './imagePath';
 import {BottomText, BottomView} from './Tracking.style';
+import LocationReducer from '../../Reducer/UserLocation';
+import store from '../../store';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -29,7 +31,7 @@ interface PropsArgs {
 export default function TrackingScreen({navigation}: PropsArgs) {
   const markerRef: any = React.useRef<any>();
   const mapRef: any = React.useRef<any>(null);
-
+  const Location = store.getState().LocationReducer.PresentLocation;
   const [state, setState] = React.useState({
     curLoc: {
       latitude: 7.293186279820373,
@@ -38,8 +40,8 @@ export default function TrackingScreen({navigation}: PropsArgs) {
       longitudeDelta: 0.0421,
     },
     dropLocationCords: {
-      latitude: 7.291403,
-      longitude: 5.142603,
+      latitude: Location.latitude,
+      longitude: Location.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },

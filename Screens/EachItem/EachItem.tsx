@@ -8,20 +8,25 @@ import {
   BodyTitle,
   BodyValue,
   BodyView,
+  TitleViewStatus,
   ButtonCheck,
   Container,
   Header,
   Hr,
   Main,
+  TitleStatus,
+  TitleStatusViewLeft,
+  TitleStatusViewRight,
   TitleText,
   TitleView,
-  TitleViewStatus,
 } from './EachItem.styles';
+import Geolocation from '@react-native-community/geolocation';
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PropsArgs} from '../../Components/Types/PropsArgs';
 import {GetSingleItem} from './EachItemFunction';
 import {DetailArgs} from '../../Components/Types/ItemArgs';
+import store from '../../store';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -50,11 +55,12 @@ function EachItem(props: PropsArgs) {
         longitudeDelta: LONGITUDE_DELTA,
       },
     });
+    
   }, []);
   React.useEffect(() => {
-    console.log({ details });
+    console.log({details});
     if (details.receiverDetails) {
-      console.log({ Hyt: details.receiverDetails.address });
+      console.log({Hyt: details.receiverDetails.address});
       setLocations({
         driver: {
           latitude: 7.293186279820373,
@@ -89,7 +95,6 @@ function EachItem(props: PropsArgs) {
   const getItem = async (propz: any) => {
     try {
       const response = await GetSingleItem(propz);
-      console.log({response});
       if (response) {
         setDetails(response);
         switch (response.data.status) {
@@ -104,9 +109,19 @@ function EachItem(props: PropsArgs) {
       console.log({error});
     }
   };
+  let permission =
+    store.getState().UserDetailReducer.UserDetail.userDetails.permission;
   console.log({locations});
-  // console.log({details});
-  const {status, name, description, destination, receiverDetails} = details;
+  // console.log({details})
+  const {status, name, description, destination, receiverDetails} =
+    details;
+  console.log({details});
+  const handleUpdate = () => {
+    if (permission === 'admin') {
+      
+    }
+    console.log('lol');
+  }
   return (
     <Container>
       <Header>
@@ -119,13 +134,6 @@ function EachItem(props: PropsArgs) {
             Back
           </Icon>
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => console.log('back')}>
-            <Icon
-              name="ios-chevron-back-circle-sharp"
-              onPress={() => props.navigation.navigate('AddTransaction')}>
-              {' '} Back
-            </Icon>
-          </TouchableOpacity> */}
       </Header>
       <Main>
         <TitleView>
@@ -154,7 +162,23 @@ function EachItem(props: PropsArgs) {
           <Hr />
           <View>
             <BodyValue>Status</BodyValue>
-            <TitleViewStatus color={color}>{status}</TitleViewStatus>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <TitleStatusViewLeft>
+                <TitleStatus color={color}>{status}</TitleStatus>
+              </TitleStatusViewLeft>
+              <TitleStatusViewRight>
+                <TouchableOpacity onPress={handleUpdate}>
+                  <TitleStatus>
+                    {permission === 'admin' ? 'update' : ''}
+                  </TitleStatus>
+                </TouchableOpacity>
+              </TitleStatusViewRight>
+            </View>
           </View>
           <Hr />
         </View>
