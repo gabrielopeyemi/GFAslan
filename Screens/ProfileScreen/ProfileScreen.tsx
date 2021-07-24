@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Container,
   Header,
@@ -15,7 +15,7 @@ import {
 } from './ProfileScreen.style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import store from '../../store';
-import {TouchableOpacity, View} from 'react-native';
+import { View } from 'react-native';
 
 export default function ProfileScreen(props: any) {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function ProfileScreen(props: any) {
   React.useEffect(() => {
     setUser(store.getState().UserDetailReducer.UserDetail.userDetails);
   }, []);
-  const {username, permission, email, gender, fullName} = user;
+  const { username, permission, email, gender, fullName } = user;
   const handleLogout = () => {
     console.log('Logging out');
     dispatch({
@@ -48,7 +48,7 @@ export default function ProfileScreen(props: any) {
           <ProfileEmail>{permission}</ProfileEmail>
         </ProfileText>
       </Header>
-      <View style={{marginTop: 20}}>
+      <View style={{ marginTop: 20 }}>
         <ProfileContainer>
           <ProfileHead>Username</ProfileHead>
           <ProfileValue>{username}</ProfileValue>

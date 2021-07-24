@@ -54,10 +54,11 @@ const LoginScreen = (props: {
       switch (response.userDetails.permission) {
         case 'normal':
           console.log('this is user');
-          props.navigation.navigate('BottomNavigation');
+          props.navigation.navigate('DriveScreen');
           break;
         case 'driver':
           console.log('this is a driver');
+          props.navigation.navigate('DriveScreen');
           break;
         case 'admin':
           console.log('this is admin');

@@ -1,4 +1,4 @@
-import {server} from '../../server';
+import { server } from '../../server';
 import store from '../../store';
 interface Props {
   packageName?: string;
@@ -38,10 +38,10 @@ const AddTransactionFunction = async ({
       },
       token: store.getState().UserDetailReducer.UserDetail.token,
     });
-    console.log({AddTransactionLog: response});
+    console.log({ AddTransactionLog: response });
     return response;
   } catch (error) {
-    console.log({error: error.response.data});
+    console.log({ error: error.response.data });
     throw error;
   }
 };
