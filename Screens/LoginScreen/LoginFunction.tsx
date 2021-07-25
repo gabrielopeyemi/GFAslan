@@ -1,10 +1,10 @@
-import {server} from '../../server';
+import { server } from '../../server';
 interface Props {
   email: string;
   password: string;
 }
 
-const LoginFunction = async ({email, password}: Props) => {
+const LoginFunction = async ({ email, password }: Props) => {
   try {
     const response = await server.post({
       url: '/auth/login',
@@ -13,10 +13,10 @@ const LoginFunction = async ({email, password}: Props) => {
         password,
       },
     });
-    console.log({loginLog: response.data});
+    console.log({ loginLog: response.data });
     return response.data;
   } catch (error) {
-    console.log({error: error.response.data});
+    console.log({ error: error.response.data });
     throw error;
   }
 };

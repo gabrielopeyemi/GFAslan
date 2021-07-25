@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import NetInfo from '@react-native-community/netinfo';
 //Paths
-import {MainControl} from '../../Assets/Styles/Main.Styled';
+import { MainControl } from '../../Assets/Styles/Main.Styled';
 import {
   Body,
   Container,
@@ -21,10 +21,10 @@ import LoginFunction from './LoginFunction';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 const LoginScreen = (props: {
-  navigation: {navigate: (arg0: string) => void};
+  navigation: { navigate: (arg0: string) => void };
 }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('famosipe2010@gmail.com');
+  const [email, setEmail] = useState('info.techjar@gmail.com');
   const [password, setPassword] = useState('opeyemi');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [netWorkIsConnected, setNetWorkIsConnected] = useState<any>(false);
@@ -44,7 +44,7 @@ const LoginScreen = (props: {
     }
     setIsLoading(true);
     try {
-      const response = await LoginFunction({email, password});
+      const response = await LoginFunction({ email, password });
       console.log(response);
       dispatch({
         type: 'LOGIN',
@@ -54,7 +54,7 @@ const LoginScreen = (props: {
       switch (response.userDetails.permission) {
         case 'normal':
           console.log('this is user');
-          props.navigation.navigate('DriveScreen');
+          props.navigation.navigate('BottomNavigationAdmin');
           break;
         case 'driver':
           console.log('this is a driver');
@@ -68,7 +68,7 @@ const LoginScreen = (props: {
           console.log('who are u?');
       }
     } catch (error) {
-      console.log({error});
+      console.log({ error });
       setIsLoading(false);
       return Toast.show(error.response.data);
     }

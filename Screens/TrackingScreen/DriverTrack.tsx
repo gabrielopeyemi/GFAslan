@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-undef */
 import React from 'react';
 import {
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { MainControl } from '../../Assets/Styles/Main.Styled';
@@ -16,9 +17,7 @@ import {
   locationPermission,
 } from '../../helper/helperfunction';
 import imagePath from './imagePath';
-import { BottomText, BottomView } from './Tracking.style';
-import LocationReducer from '../../Reducer/UserLocation';
-import store from '../../store';
+import { BottomText, TopView, CasView } from './Tracking.style';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -27,50 +26,34 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 interface PropsArgs {
   navigation: any;
+  route: any;
 }
-export default function TrackingScreen({ navigation }: PropsArgs) {
+export default function DriverTrack(props: PropsArgs) {
   const markerRef: any = React.useRef<any>();
   const mapRef: any = React.useRef<any>(null);
-  const Location = store.getState().LocationReducer.PresentLocation;
-  const [state, setState] = React.useState({
-    curLoc: {
-      latitude: 7.293186279820373,
-      longitude: 5.149915105760385,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
-    dropLocationCords: {
-      latitude: Location.latitude,
-      longitude: Location.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
+  const [dropLocationCords, setDropLocationCords] = React.useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
   });
-
-  const { curLoc, dropLocationCords } = state;
-
-  const getLiveLocation = async () => {
-    const locPermissionDenied = await locationPermission();
-    if (locPermissionDenied) {
-      const { latitude, longitude } = await getCurrentLocation();
-      // console.log("get live location after 4 second")
-      animate(latitude, longitude);
-      setState({
-        ...state,
-        curLoc: { latitude, longitude },
-        coordinate: new AnimatedRegion({
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }),
-      });
-    }
-  };
+  const [curLoc, setCurLoc] = React.useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  });
+  React.useEffect(() => {
+    console.log({ Bali: props.route.params.locations });
+    const { driver, destination } = props.route.params.locations;
+    console.log({ driver: driver.longitude, destination });
+    setDropLocationCords(destination);
+    setCurLoc(driver);
+  }, []);
 
   const animate = (latitude: any, longitude: any) => {
     const newCoordinate = { latitude, longitude };
-    if (Platform.OS === 'android') {
+    if (Platform.OS == 'android') {
       if (markerRef.current) {
         markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
       }
@@ -114,14 +97,26 @@ export default function TrackingScreen({ navigation }: PropsArgs) {
           }}
         />
       </MapView>
-      <BottomView style={{ flex: 1 }}>
-        <Text>Where is my package?</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SendPackage')}
-          style={{ width: '100%', marginTop: 10 }}>
-          <BottomText>Choose location</BottomText>
-        </TouchableOpacity>
-      </BottomView>
+      <TopView>
+        <CasView>
+          <TouchableOpacity onPress={() => console.log('back')}>
+            <Icon
+              name="ios-chevron-back-circle-sharp"
+              size={15}
+              onPress={() => props.navigation.goBack()}>
+              {' '}
+              Back
+            </Icon>
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={() => console.log('back')}>
+            <Icon
+              name="ios-chevron-back-circle-sharp"
+              onPress={() => props.navigation.navigate('AddTransaction')}>
+              {' '} Back
+            </Icon>
+          </TouchableOpacity> */}
+        </CasView>
+      </TopView>
     </MainControl>
   );
 }

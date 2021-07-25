@@ -17,6 +17,7 @@ import BottomNavigationAdmin from './Components/BottomNavigationAdmin/BottomNavi
 import BottomNavigationDriver from './Components/BottomNavigationDriver/BottomNavigationDriver';
 import EachItem from './Screens/EachItem/EachItem';
 import DriveScreen from './Screens/DriveScreen/DriveScreen';
+import ProfileScreen from './Screens/ProfileScreen/ProfileScreen';
 // import 'app.css';
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const App = () => {
             <Stack.Screen name="RegisterTwo" component={RegisterScreenTwo} />
             <Stack.Screen name="DriveScreen" component={DriveScreen} />
             <Stack.Screen name="SendPackage" component={SendPackage} />
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen
               name="ShowItemLocation"
               component={ShowItemLocation}

@@ -1,4 +1,4 @@
-import {server} from '../../server';
+import { server } from '../../server';
 import store from '../../store';
 
 export const GetAllTransaction = async () => {
@@ -6,12 +6,12 @@ export const GetAllTransaction = async () => {
   console.log(Id);
   try {
     const response = await server.get({
-      url: `/items/`,
+      url: '/items/',
       token: store.getState().UserDetailReducer.UserDetail.token,
     });
     return response.data.data;
   } catch (error) {
-    console.log({error});
+    console.log({ error });
     throw error;
   }
 };
