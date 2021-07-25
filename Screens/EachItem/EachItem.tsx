@@ -21,11 +21,11 @@ import {
   TitleView,
 } from './EachItem.styles';
 import Geolocation from '@react-native-community/geolocation';
-import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PropsArgs} from '../../Components/Types/PropsArgs';
-import {GetSingleItem} from './EachItemFunction';
-import {DetailArgs} from '../../Components/Types/ItemArgs';
+import { PropsArgs } from '../../Components/Types/PropsArgs';
+import { GetSingleItem } from './EachItemFunction';
+import { DetailArgs } from '../../Components/Types/ItemArgs';
 import store from '../../store';
 
 const screen = Dimensions.get('window');
@@ -39,7 +39,7 @@ function EachItem(props: PropsArgs) {
   const [locations, setLocations] = React.useState<any>({});
   const [color, setColor] = React.useState('');
   React.useEffect(() => {
-    console.log({props: props.route.params.data});
+    console.log({ props: props.route.params.data });
     getItem(props.route.params.data);
     setLocations({
       driver: {
@@ -55,12 +55,11 @@ function EachItem(props: PropsArgs) {
         longitudeDelta: LONGITUDE_DELTA,
       },
     });
-    
   }, []);
   React.useEffect(() => {
-    console.log({details});
+    console.log({ details });
     if (details.receiverDetails) {
-      console.log({Hyt: details.receiverDetails.address});
+      console.log({ Hyt: details.receiverDetails.address });
       setLocations({
         driver: {
           latitude: 7.293186279820373,
@@ -106,22 +105,20 @@ function EachItem(props: PropsArgs) {
         }
       }
     } catch (error) {
-      console.log({error});
+      console.log({ error });
     }
   };
   let permission =
     store.getState().UserDetailReducer.UserDetail.userDetails.permission;
-  console.log({locations});
+  console.log({ locations });
   // console.log({details})
-  const {status, name, description, destination, receiverDetails} =
-    details;
-  console.log({details});
+  const { status, name, description, destination, receiverDetails } = details;
+  console.log({ details });
   const handleUpdate = () => {
     if (permission === 'admin') {
-      
+      console.log('lol');
     }
-    console.log('lol');
-  }
+  };
   return (
     <Container>
       <Header>
@@ -137,9 +134,9 @@ function EachItem(props: PropsArgs) {
       </Header>
       <Main>
         <TitleView>
-          <Emoji name="grinning" style={{fontSize: 100}} />
+          <Emoji name="grinning" style={{ fontSize: 100 }} />
         </TitleView>
-        <View style={{margin: 10}}>
+        <View style={{ margin: 10 }}>
           <View>
             <BodyValue>Item name</BodyValue>
             <TitleText>{name}</TitleText>
@@ -185,7 +182,7 @@ function EachItem(props: PropsArgs) {
       </Main>
       <TouchableOpacity
         onPress={() =>
-          props.navigation.navigate('ShowItemLocation', {locations})
+          props.navigation.navigate('ShowItemLocation', { locations })
         }>
         <ButtonCheck>Track</ButtonCheck>
       </TouchableOpacity>

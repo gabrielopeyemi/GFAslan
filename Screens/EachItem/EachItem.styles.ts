@@ -17,7 +17,7 @@ export const Main = styled.View`
 export const TitleView = styled.View`
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 `;
 
 export const TitleStatusView = styled.View`
