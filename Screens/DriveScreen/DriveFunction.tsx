@@ -1,4 +1,3 @@
-import { server } from '../../server';
 import store from '../../store';
 interface Props {
   latitude: string;

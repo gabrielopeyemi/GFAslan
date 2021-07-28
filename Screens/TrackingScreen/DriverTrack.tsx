@@ -53,7 +53,7 @@ export default function DriverTrack(props: PropsArgs) {
 
   const animate = (latitude: any, longitude: any) => {
     const newCoordinate = { latitude, longitude };
-    if (Platform.OS == 'android') {
+    if (Platform.OS === 'android') {
       if (markerRef.current) {
         markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
       }

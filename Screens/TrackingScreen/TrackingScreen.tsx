@@ -6,11 +6,13 @@ import {
   Platform,
   TouchableOpacity,
   Dimensions,
+  PermissionsAndroid,
 } from 'react-native';
-import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { MainControl } from '../../Assets/Styles/Main.Styled';
 import { GOOGLE_MAPS_APIKEY } from '../../config';
+import Geolocation from '@react-native-community/geolocation';
 import {
   getCurrentLocation,
   locationPermission,
@@ -25,83 +27,73 @@ const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.9222;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+
+
 interface PropsArgs {
   navigation: any;
 }
 export default function TrackingScreen({ navigation }: PropsArgs) {
-  const markerRef: any = React.useRef<any>();
-  const mapRef: any = React.useRef<any>(null);
-  const Location = store.getState().LocationReducer.PresentLocation;
-  const [state, setState] = React.useState({
-    curLoc: {
-      latitude: 7.293186279820373,
-      longitude: 5.149915105760385,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
-    dropLocationCords: {
-      latitude: Location.latitude,
-      longitude: Location.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
+  // State
+  const [currentLocation, setCurrentLocation] = React.useState({
+    latitude: 7.293116,
+    longitude: 5.149776,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  });
+  const [destinationLocation, setDestinationLocation] = React.useState({
+    latitude: 7.292875,
+    longitude: 5.150723,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
   });
 
-  const { curLoc, dropLocationCords } = state;
-
-  const getLiveLocation = async () => {
-    const locPermissionDenied = await locationPermission();
-    if (locPermissionDenied) {
-      const { latitude, longitude } = await getCurrentLocation();
-      // console.log("get live location after 4 second")
-      animate(latitude, longitude);
-      setState({
-        ...state,
-        curLoc: { latitude, longitude },
-        coordinate: new AnimatedRegion({
-          latitude: latitude,
-          longitude: longitude,
+  React.useEffect(() => {
+    const Location = async () => {
+      try {
+        const response: any = await getCurrentLocation();
+        console.log({ CurrentLocation: response });
+        setCurrentLocation({
+          latitude: response.latitude,
+          longitude: response.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
-        }),
-      });
-    }
-  };
-
-  const animate = (latitude: any, longitude: any) => {
-    const newCoordinate = { latitude, longitude };
-    if (Platform.OS === 'android') {
-      if (markerRef.current) {
-        markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
+        });
+      } catch (error) {
+        console.log({ error });
       }
-    } else {
-      coordinate.timing(newCoordinate).start();
-    }
-  };
+    };
+    Location();
+  }, []);
+
+  const markerRef: any = React.useRef<any>();
+  const mapRef: any = React.useRef<any>(null);
 
   return (
     <MainControl>
       <MapView
         ref={mapRef}
+        customMapStyle={MapStyle}
         style={{
           width: screen.width,
           height: screen.height,
+          margin: 0,
+          padding: 0,
         }}
-        initialRegion={curLoc}>
-        <Marker coordinate={dropLocationCords} />
-        <Marker coordinate={curLoc} image={imagePath.car} />
+        initialRegion={currentLocation}>
         <MapViewDirections
-          origin={curLoc}
-          destination={dropLocationCords}
+          origin={currentLocation}
+          destination={destinationLocation}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={6}
           optimizeWaypoints={true}
-          // onStart={(params) => {
-          //     console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
-          // }}
+          onStart={params => {
+            console.log(
+              `Started routing between "${params.origin}" and "${params.destination}"`,
+            );
+          }}
           onReady={result => {
-            // console.log(`Distance: ${result.distance} km`)
-            // console.log(`Duration: ${result.duration} min.`)
+            console.log(`Distance: ${result.distance} km`);
+            console.log(`Duration: ${result.duration} min.`);
 
             mapRef.current.fitToCoordinates(result.coordinates, {
               edgePadding: {
@@ -113,6 +105,8 @@ export default function TrackingScreen({ navigation }: PropsArgs) {
             });
           }}
         />
+        <Marker coordinate={destinationLocation} />
+        <Marker coordinate={currentLocation} image={imagePath.car} />
       </MapView>
       <BottomView style={{ flex: 1 }}>
         <Text>Where is my package?</Text>
@@ -125,3 +119,165 @@ export default function TrackingScreen({ navigation }: PropsArgs) {
     </MainControl>
   );
 }
+
+const MapStyle = [
+  {
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#242f3e',
+      },
+    ],
+  },
+  {
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#746855',
+      },
+    ],
+  },
+  {
+    elementType: 'labels.text.stroke',
+    stylers: [
+      {
+        color: '#242f3e',
+      },
+    ],
+  },
+  {
+    featureType: 'administrative.locality',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#d59563',
+      },
+    ],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#d59563',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#263c3f',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#6b9a76',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#38414e',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry.stroke',
+    stylers: [
+      {
+        color: '#212a37',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#9ca5b3',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#746855',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry.stroke',
+    stylers: [
+      {
+        color: '#1f2835',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#f3d19c',
+      },
+    ],
+  },
+  {
+    featureType: 'transit',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#2f3948',
+      },
+    ],
+  },
+  {
+    featureType: 'transit.station',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#d59563',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#17263c',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#515c6d',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.stroke',
+    stylers: [
+      {
+        color: '#17263c',
+      },
+    ],
+  },
+];

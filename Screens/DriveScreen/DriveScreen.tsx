@@ -12,7 +12,6 @@ import {
   StartButton,
   TextStyle,
   TextStyleSmall,
-  TrackText,
 } from './DriveScreen.styles';
 import store from '../../store';
 import { View } from 'react-native';
@@ -28,12 +27,17 @@ interface locationDataArgs {
   longitude: number;
 }
 function DriveScreen(props: PropsArgs) {
+  // Dispatch
   const dispatch = useDispatch();
+  // State
   const [buttonState, setButtonState] = React.useState(false);
   const [locationData, setLocationData] = React.useState<any>({});
-  // Get driver's location from Android API
+  const IconNotMoved = require('./../../Assets/lottie/finding-route.json');
+  const IconMoved = require('./../../Assets/lottie/finding-route-moved.json');
 
+  // when app loads
   React.useEffect(() => {
+    //Getting location from GOOGLE API
     const Location = async () => {
       try {
         const response: any = await getCurrentLocation();
@@ -52,6 +56,8 @@ function DriveScreen(props: PropsArgs) {
       UpdateDriver();
     }, 5 * 1000);
   }, []);
+
+  // when your press button
   const handleOnPress = () => {
     setButtonState(!buttonState);
     console.log({ locationData });
@@ -61,6 +67,7 @@ function DriveScreen(props: PropsArgs) {
       UpdateDriver();
     }, 60 * 1000);
   };
+
   // Send driver's location to server
   const UpdateDriver = async () => {
     try {
@@ -75,18 +82,19 @@ function DriveScreen(props: PropsArgs) {
       });
       console.log({ response });
       return response;
-    } catch (error) {
-      console.log({ error });
+    } catch (errorData) {
+      console.log({ errorWhileSendLocationToServer: errorData.response.data });
     }
   };
-  const IconNotMoved = require('./../../Assets/lottie/finding-route.json');
-  const IconMoved = require('./../../Assets/lottie/finding-route-moved.json');
+
   const { username } =
     store.getState().UserDetailReducer.UserDetail.userDetails;
+
   const handleTrack = () => {
     console.log('hello world');
     props.navigation.navigate('ProfileScreen');
   };
+
   return (
     <Container>
       <HeaderView>
