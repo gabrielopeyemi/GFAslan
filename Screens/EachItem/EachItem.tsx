@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import Emoji from 'react-native-emoji';
 import React from 'react';
-
+import { Button, Modal, Select } from 'native-base';
 import {
   Body,
   BodyStatus,
@@ -27,7 +27,6 @@ import { PropsArgs } from '../../Components/Types/PropsArgs';
 import { GetSingleItem } from './EachItemFunction';
 import { DetailArgs } from '../../Components/Types/ItemArgs';
 import store from '../../store';
-
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.9222;
@@ -37,6 +36,7 @@ interface EachItemProps {}
 function EachItem(props: PropsArgs) {
   const [details, setDetails] = React.useState<DetailArgs | any>({});
   const [locations, setLocations] = React.useState<any>({});
+  const [newStatus, setNewStatus] = React.useState('');
   const [color, setColor] = React.useState('');
   React.useEffect(() => {
     console.log({ props: props.route.params.data });
@@ -119,6 +119,16 @@ function EachItem(props: PropsArgs) {
       console.log('lol');
     }
   };
+  const [placement, setPlacement] = React.useState(undefined);
+  const [open, setOpen] = React.useState(false);
+
+  const openModal = (placement: any) => {
+    setOpen(true);
+    setPlacement(placement);
+  };
+  const handleStatusUpdate = () => {
+    console.log('handleStatusUpdate');
+  };
   return (
     <Container>
       <Header>
@@ -169,7 +179,10 @@ function EachItem(props: PropsArgs) {
                 <TitleStatus color={color}>{status}</TitleStatus>
               </TitleStatusViewLeft>
               <TitleStatusViewRight>
-                <TouchableOpacity onPress={handleUpdate}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setOpen(!open);
+                  }}>
                   <TitleStatus>
                     {permission === 'admin' ? 'update' : ''}
                   </TitleStatus>
@@ -186,10 +199,64 @@ function EachItem(props: PropsArgs) {
         }>
         <ButtonCheck>Track</ButtonCheck>
       </TouchableOpacity>
+      <Modal isOpen={open} onClose={() => setOpen(false)} mt={12}>
+        <Modal.Content
+          width={`${screen.width * 0.98}px`}
+          style={{
+            marginBottom: 0,
+            marginTop: 'auto',
+          }}>
+          <Modal.CloseButton />
+          <Modal.Header>Update Status</Modal.Header>
+          <Modal.Body>
+            <Select
+              placeholder={status}
+              selectedValue={newStatus}
+              width={`${screen.width * 0.85}px`}
+              onValueChange={(itemValue: string) => setNewStatus(itemValue)}>
+              <Select.Item label="Wallet" value="key0" />
+              <Select.Item label="ATM Card" value="key1" />
+              <Select.Item label="Debit Card" value="key2" />
+              <Select.Item label="Credit Card" value="key3" />
+              <Select.Item label="Net Banking" value="key4" />
+            </Select>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group variant="ghost" space={2}>
+              <Button>LEARN MORE</Button>
+              <Button
+                onPress={() => {
+                  setOpen(false);
+                }}>
+                ACCEPT
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </Container>
   );
 }
 
+const styles = {
+  top: {
+    marginBottom: 'auto',
+    marginTop: 0,
+  },
+  bottom: {
+    marginBottom: 0,
+    marginTop: 'auto',
+  },
+  left: {
+    marginLeft: 0,
+    marginRight: 'auto',
+  },
+  right: {
+    marginLeft: 'auto',
+    marginRight: 0,
+  },
+  center: {},
+};
 export default EachItem;
 
 // onPress={() => navigation.navigate('ShowItemLocation', {Locations})}

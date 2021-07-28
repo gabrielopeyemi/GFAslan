@@ -22,9 +22,9 @@ import Toast from 'react-native-simple-toast';
 const RegisterScreenOne = (props: {
   navigation: {navigate: (arg0: string) => void};
 }) => {
-  const [fullName, setFullName] = useState('Opeyemi Gabriel Famosipe');
-  const [email, setEmail] = useState('info.techjar@gmail.com');
-  const [username, setUsername] = useState('Gabby');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const handleButton = () => {
     console.log(`${fullName} ${email} ${username}`);
     const data: any = {

@@ -51,6 +51,13 @@ export const ProfileName = styled.Text`
   margin-left: 10px;
 `;
 
-export const AddTransaction = styled.Text`
+export const AddTransaction = styled.Text``;
 
+export const TransactionView = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  height: 100%;
 `;

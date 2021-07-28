@@ -101,11 +101,13 @@ const RegisterScreenTwo = (props: any) => {
             placeholder="Confirm Password"
             onChangeText={setConfirmPassword}
             value={confirmPassword}
+            secureTextEntry={true}
           />
           <TextInputu
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
+            secureTextEntry={true}
           />
         </Body>
         <Footer>

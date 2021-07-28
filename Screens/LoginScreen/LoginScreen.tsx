@@ -24,8 +24,8 @@ const LoginScreen = (props: {
   navigation: { navigate: (arg0: string) => void };
 }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('info.softmesh@gmail.com');
-  const [password, setPassword] = useState('opeyemi');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [netWorkIsConnected, setNetWorkIsConnected] = useState<any>(false);
   React.useEffect(() => {
@@ -42,35 +42,49 @@ const LoginScreen = (props: {
       Toast.show('no internet connection');
       return;
     }
-    setIsLoading(true);
-    try {
-      const response = await LoginFunction({ email, password });
-      console.log(response);
-      dispatch({
-        type: 'LOGIN',
-        payload: response,
-      });
-      setIsLoading(false);
-      switch (response.userDetails.permission) {
-        case 'normal':
-          console.log('this is user');
-          props.navigation.navigate('BottomNavigationAdmin');
-          break;
-        case 'driver':
-          console.log('this is a driver');
-          props.navigation.navigate('DriveScreen');
-          break;
-        case 'admin':
-          console.log('this is admin');
-          props.navigation.navigate('BottomNavigationAdmin');
-          break;
-        default:
-          console.log('who are u?');
+    if (!email || !password) {
+      Toast.show('input username or password');
+      return;
+    }
+    if ( email || password) {
+      let rjx = /^([a-zA-Z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2.8})?$/;
+      let isValid = rjx.test(email);
+      if (!isValid) {
+        return Toast.show('Invalid Email');
       }
-    } catch (error) {
-      console.log({ error });
-      setIsLoading(false);
-      return Toast.show(error.response.data);
+      setIsLoading(true);
+      try {
+        const response = await LoginFunction({ email, password });
+        console.log(response);
+        dispatch({
+          type: 'LOGIN',
+          payload: response,
+        });
+        setIsLoading(false);
+        switch (response.userDetails.permission) {
+          case 'normal':
+            console.log('this is user');
+            props.navigation.navigate('BottomNavigationAdmin');
+            break;
+          case 'driver':
+            console.log('this is a driver');
+            props.navigation.navigate('DriveScreen');
+            break;
+          case 'admin':
+            console.log('this is admin');
+            props.navigation.navigate('BottomNavigationAdmin');
+            break;
+          default:
+            console.log('who are u?');
+        }
+      } catch (errorResponse) {
+        console.log({ errorResponse });
+        console.log('900e');
+        setIsLoading(false);
+        return Toast.show(errorResponse.error);
+      }
+    } else {
+      return Toast.show('Please complete the field');
     }
   };
   if (isLoading) {
@@ -94,6 +108,7 @@ const LoginScreen = (props: {
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
+            secureTextEntry={true}
           />
         </Body>
         <Footer>

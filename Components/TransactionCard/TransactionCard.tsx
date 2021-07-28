@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import moment from 'moment';
 import TransactionArgs from '../../Screens/TransactionScreen/Transaction.dto';
 import {
@@ -21,17 +21,21 @@ interface PropsArgs {
   transaction: any;
   navigation: any;
 }
-export default function TransactionCard({transaction, navigation}: PropsArgs) {
-  console.log({transaction});
+export default function TransactionCard({
+  transaction,
+  navigation,
+}: PropsArgs) {
+  console.log({ transaction });
   const [statusColor, setStatusColor] = React.useState('black');
-  const {status, name, description, destination, createdAt, _id} = transaction;
+  const { status, name, description, destination, createdAt, _id } =
+    transaction;
   React.useEffect(() => {
     if (status === 'not-in-transit') {
       return setStatusColor('red');
     }
   }, []);
   return (
-    <CardStyle onPress={() => navigation.navigate('EachItem', {data: _id})}>
+    <CardStyle onPress={() => navigation.navigate('EachItem', { data: _id })}>
       {/* Head */}
       <CardHeader>
         <View>

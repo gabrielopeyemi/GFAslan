@@ -13,11 +13,11 @@ const LoginFunction = async ({ email, password }: Props) => {
         password,
       },
     });
-    console.log({ loginLog: response.data });
+    console.log({ loginLog: response });
     return response.data;
   } catch (error) {
-    console.log({ error: error.response.data });
-    throw error;
+    console.log({ LoginErrorLog: error.response.data });
+    throw error.response.data;
   }
 };
 

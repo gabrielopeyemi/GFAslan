@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { Modal, Button, Stack, Center, NativeBaseProvider } from "native-base"
-import { Alert, ScrollView, View } from 'react-native';
+import { Modal, Button, Stack, Center, NativeBaseProvider } from 'native-base';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import { Container } from '../../Assets/Styles/Auth.Styled';
 import { MainControl } from '../../Assets/Styles/Main.Styled';
 import TransactionCard from '../../Components/TransactionCard/TransactionCard';
@@ -14,6 +14,7 @@ import {
   ProfileName,
   ProfileText,
   ProfileView,
+  TransactionView,
 } from './TransactionScreen.style';
 import TransactionArgs from './Transaction.dto';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -26,6 +27,7 @@ export default function TransactionScreen(props: any) {
     setUser(store.getState().UserDetailReducer.UserDetail.userDetails);
   }, []);
   const getAllTransaction = async () => {
+    let permission = user.permission;
     try {
       const response = await GetAllTransaction();
       console.log(response);
@@ -39,18 +41,6 @@ export default function TransactionScreen(props: any) {
   }, []);
 
   const [curLoc, setCurLoc] = React.useState({});
-
-  const fetchPickupCords = (lat: number, log: number) => {
-    console.log('Log ====>', log);
-    setCurLoc(...curLoc);
-  };
-  const [modalVisible, setModalVisible] = React.useState(false)
-  const [size, setSize] = React.useState("md")
-
-  const handleSizeClick = (newSize) => {
-    setSize(newSize)
-    setModalVisible(!modalVisible)
-  }
 
   return (
     <MainControl>
@@ -72,48 +62,24 @@ export default function TransactionScreen(props: any) {
           </HeaderRight>
         </Header>
         <CardDiv>
-          {transactions.map((transaction: TransactionArgs) => {
-            console.log({ YU: transactions });
-            return (
-              <TransactionCard
-                transaction={transaction}
-                key={transaction._id}
-                navigation={props.navigation}
-              />
-            );
-          })}
+          {transactions.length === 0 ? (
+            <TransactionView>
+              <Text>No transaction yet</Text>
+            </TransactionView>
+          ) : (
+            transactions.reverse().map((transaction: TransactionArgs) => {
+              console.log({ YU: transaction });
+              return (
+                <TransactionCard
+                  transaction={transaction}
+                  key={transaction._id}
+                  navigation={props.navigation}
+                />
+              );
+            })
+          )}
         </CardDiv>
       </Container>
-      <Modal isOpen={modalVisible} onClose={setModalVisible} size={size}>
-        <Modal.Content>
-          <Modal.CloseButton />
-          <Modal.Header>Modal Title</Modal.Header>
-          <Modal.Body>
-            Sit nulla est ex deserunt exercitation anim occaecat. Nostrud
-            ullamco deserunt aute id consequat veniam incididunt duis in sint
-            irure nisi. Mollit officia cillum Lorem ullamco minim nostrud elit
-            officia tempor esse quis. Sunt ad dolore quis aute consequat. Magna
-            exercitation reprehenderit magna aute tempor cupidatat consequat
-            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
-            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
-            laboris do dolor eiusmod. Et mollit incididunt nisi consectetur esse
-            laborum eiusmod pariatur
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Group variant="ghost" space={2}>
-              <Button>SAVE</Button>
-              <Button
-                onPress={() => {
-                  setModalVisible(!modalVisible)
-                }}
-                colorScheme="muted"
-              >
-                CLOSE
-              </Button>
-            </Button.Group>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
     </MainControl>
   );
 }

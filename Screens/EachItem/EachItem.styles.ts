@@ -31,7 +31,7 @@ export const TitleStatusViewLeft = styled.View``;
 
 export const TitleStatusViewRight = styled.View``;
 
-export const TitleStatus = styled.Text<{color?: string}>`
+export const TitleStatus = styled.Text<{ color?: string }>`
   color: ${p => (p.color ? p.color : 'blue')};
 `;
 
