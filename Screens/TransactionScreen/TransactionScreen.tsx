@@ -40,7 +40,6 @@ export default function TransactionScreen(props: any) {
     getAllTransaction();
   }, []);
 
-  const [curLoc, setCurLoc] = React.useState({});
 
   return (
     <MainControl>

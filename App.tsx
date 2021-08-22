@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Provider} from 'react-redux';
-import {NativeBaseProvider, Text, Box} from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Provider } from 'react-redux';
+import { NativeBaseProvider } from 'native-base';
 //Path
 import SplashScreen from './Screens/SplashScreen/SplashScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';

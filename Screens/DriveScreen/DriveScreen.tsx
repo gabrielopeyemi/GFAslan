@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Text, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import {
+  ConnectedText,
   Container,
   HeaderView,
   MainView,
@@ -18,11 +20,17 @@ import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { primaryColor } from '../../config';
 import UpdateDriverLocation from './DriveFunction';
-import { getCurrentLocation } from '../../helper/helperfunction';
+import {
+  getCurrentLocation,
+  locationPermission,
+} from '../../helper/helperfunction';
 import { server } from '../../server';
 import { PropsArgs } from '../../Components/Types/PropsArgs';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
+import Geolocation from '@react-native-community/geolocation';
+import { ConnectedView } from './DriveScreen.styles';
 
-interface locationDataArgs {
+interface currentLocationArgs {
   latitude: number;
   longitude: number;
 }
@@ -30,42 +38,62 @@ function DriveScreen(props: PropsArgs) {
   // Dispatch
   const dispatch = useDispatch();
   // State
+  const [connection, setConnection] = React.useState<boolean>(false);
   const [buttonState, setButtonState] = React.useState(false);
-  const [locationData, setLocationData] = React.useState<any>({});
+  const [currentLocation, setCurrentLocation] = React.useState<any>(null);
   const IconNotMoved = require('./../../Assets/lottie/finding-route.json');
   const IconMoved = require('./../../Assets/lottie/finding-route-moved.json');
 
   // when app loads
   React.useEffect(() => {
-    //Getting location from GOOGLE API
+    // setConnection(false);
+    setInterval(() => {
+      setConnection(false);
+    }, 10000);
     const Location = async () => {
       try {
-        const response: any = await getCurrentLocation();
-        setLocationData(response);
-        dispatch({
-          type: 'LOCATION',
-          payload: response,
-        });
+        const res = await locationPermission();
+        if (res === 'granted') {
+          console.log({ res });
+          await Geolocation.watchPosition(
+            position => {
+              console.log({
+                LAT: position.coords.latitude,
+                LNG: position.coords.longitude,
+              });
+              setCurrentLocation({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              });
+              dispatch({
+                type: 'LOCATION',
+                payload: position.coords,
+              });
+            },
+            error => {
+              // See error code charts below.
+              console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+          );
+        } else {
+          console.log('You are not granted permission');
+        }
       } catch (error) {
         console.log({ error });
       }
     };
     Location();
-    setInterval(() => {
-      console.log('Hello');
-      UpdateDriver();
-    }, 5 * 1000);
   }, []);
+  React.useEffect(() => {
+    UpdateDriver();
+  }, [currentLocation]);
 
   // when your press button
   const handleOnPress = () => {
     setButtonState(!buttonState);
-    console.log({ locationData });
+    console.log({ currentLocation });
     UpdateDriver();
-    setInterval(() => {
-      console.log('Hello');
-      UpdateDriver();
-    }, 60 * 1000);
   };
 
   // Send driver's location to server
@@ -74,14 +102,19 @@ function DriveScreen(props: PropsArgs) {
       const response = await server.post({
         url: '/users/update-driver-location',
         data: {
-          latitude: locationData.latitude,
-          longitude: locationData.longitude,
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
           address: 'address',
         },
         token: store.getState().UserDetailReducer.UserDetail.token,
       });
-      console.log({ response });
-      return response;
+      console.log({ response: response.data.data.success });
+      if (response.data.data.success) {
+        setConnection(true);
+        return;
+      }
+      setConnection(response.data.data.success);
+      return;
     } catch (errorData) {
       console.log({ errorWhileSendLocationToServer: errorData.response.data });
     }
@@ -94,7 +127,9 @@ function DriveScreen(props: PropsArgs) {
     console.log('hello world');
     props.navigation.navigate('ProfileScreen');
   };
-
+  if (currentLocation === null) {
+    return <LoadingIndicator />;
+  }
   return (
     <Container>
       <HeaderView>
@@ -143,6 +178,11 @@ function DriveScreen(props: PropsArgs) {
             marginTop: 80,
           }}
         />
+        <ConnectedView>
+          <ConnectedText connection={connection}>
+            {connection ? 'connected' : 'not connected'}
+          </ConnectedText>
+        </ConnectedView>
         <StartButton
           state={buttonState}
           onPress={handleOnPress}

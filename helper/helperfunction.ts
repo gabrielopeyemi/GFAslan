@@ -4,7 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 
 export const getCurrentLocation = () =>
   new Promise((resolve, reject) => {
-    Geolocation.getCurrentPosition(
+    Geolocation.watchPosition(
       position => {
         const cords = {
           latitude: position.coords.latitude,
@@ -18,9 +18,9 @@ export const getCurrentLocation = () =>
       {
         enableHighAccuracy: true,
         timeout: 15000,
-        maximumAge: 10000,
         forceRequestLocation: true,
         showLocationDialog: true,
+        distanceFilter: 10,
       },
     );
   });

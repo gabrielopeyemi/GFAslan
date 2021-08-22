@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {primaryColor} from '../../config';
+import { primaryColor } from '../../config';
 import ProfileScreen from '../../Screens/ProfileScreen/ProfileScreen';
 import TrackingScreen from '../../Screens/TrackingScreen/TrackingScreen';
 import TransactionScreen from '../../Screens/TransactionScreen/TransactionScreen';
@@ -21,7 +21,7 @@ const BottomNavigationDriver = () => {
         component={TransactionScreen}
         options={{
           tabBarLabel: 'Transaction',
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={size} />
           ),
         }}
@@ -31,7 +31,7 @@ const BottomNavigationDriver = () => {
         component={TrackingScreen}
         options={{
           tabBarLabel: 'Tracking',
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Icon name="map" color={color} size={size} />
           ),
         }}
@@ -41,7 +41,7 @@ const BottomNavigationDriver = () => {
         component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Icon name="account" color={color} size={size} />
           ),
         }}

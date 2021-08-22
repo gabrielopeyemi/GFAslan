@@ -1,8 +1,7 @@
-import {createStore, compose, applyMiddleware} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import devToolsEnhancer from 'remote-redux-devtools';
-import {persistReducer} from 'redux-persist';
-import {createLogger} from 'redux-logger';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistReducer } from 'redux-persist';
+import { createLogger } from 'redux-logger';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AllReducers from '../Reducer';
 
@@ -24,6 +23,6 @@ const store: any = createStore(
     // other store enhancers if any
   ),
 );
-console.log({Store: store.getState()});
+console.log({ Store: store.getState() });
 
 export default store;

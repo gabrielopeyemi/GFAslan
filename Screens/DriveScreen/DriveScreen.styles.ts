@@ -19,10 +19,24 @@ export const StartButton = styled.TouchableOpacity<{ state?: boolean }>`
   border-radius: ${borderRadius}px;
 `;
 
+export const ConnectedView = styled.View`
+  position: absolute;
+  bottom: 180px;
+  /* width: 100%; */
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const ConnectedText = styled.Text<{ connection: boolean }>`
+  /* width: 100%; */
+  text-align: center;
+  color: ${p => (p.connection ? 'blue' : 'red')};
+`;
 export const MainView = styled.View`
   height: 100%;
   display: flex;
-  /* justify-content: center; */
+  flex-direction: column;
   align-self: center;
 `;
 

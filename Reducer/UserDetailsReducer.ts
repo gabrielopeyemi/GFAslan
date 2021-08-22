@@ -1,5 +1,5 @@
 import {initialState} from '.';
-import {ActionTypes} from '../Components/Types/ActionTypes';
+import { ActionTypes } from '../Components/Types/ActionTypes';
 
 const UserDetailReducer = (
   state = initialState.UserDetail,
