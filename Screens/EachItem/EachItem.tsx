@@ -210,7 +210,7 @@ function EachItem(props: PropsArgs) {
           <Modal.Header>Update Status</Modal.Header>
           <Modal.Body>
             <Select
-              placeholder={status}
+              placeholder={status} 
               selectedValue={newStatus}
               width={`${screen.width * 0.85}px`}
               onValueChange={(itemValue: string) => setNewStatus(itemValue)}>

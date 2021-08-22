@@ -6,8 +6,8 @@ import {
   Platform,
   TouchableOpacity,
   Dimensions,
+  View,
 } from 'react-native';
-import PubNubReact from 'pubnub-react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -15,6 +15,7 @@ import { MainControl } from '../../Assets/Styles/Main.Styled';
 import { GOOGLE_MAPS_APIKEY } from '../../config';
 import imagePath from './imagePath';
 import { TopView, CasView } from './Tracking.style';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -28,22 +29,8 @@ interface PropsArgs {
 export default function ShowItemLocation(props: PropsArgs) {
   const markerRef: any = React.useRef<any>();
   const mapRef: any = React.useRef<any>(null);
-  const pubnub = new PubNubReact({
-    publishKey: 'X',
-    subscribeKey: 'X',
-  });
-  const [dropLocationCords, setDropLocationCords] = React.useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  });
-  const [curLoc, setCurLoc] = React.useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  });
+  const [dropLocationCords, setDropLocationCords] = React.useState<any>(null);
+  const [curLoc, setCurLoc] = React.useState<any>(null);
   React.useEffect(() => {
     console.log({ Bali: props.route.params.locations });
     const { driver, destination } = props.route.params.locations;
@@ -62,6 +49,9 @@ export default function ShowItemLocation(props: PropsArgs) {
       coordinate.timing(newCoordinate).start();
     }
   };
+  if (dropLocationCords === null) {
+    return <LoadingIndicator />;
+  }
   return (
     <MainControl>
       <MapView
@@ -71,25 +61,27 @@ export default function ShowItemLocation(props: PropsArgs) {
           height: screen.height,
         }}
         initialRegion={curLoc}>
-        <Marker coordinate={dropLocationCords} />
-        <Marker
-          coordinate={curLoc}
-          image={imagePath.car}
-          style={{ width: 26, height: 28 }}
-        />
+        <Marker coordinate={dropLocationCords} title={'Destination'}>
+          <View style={styles.circle}>
+            <View style={styles.core} />
+            <View style={styles.stroke} />
+          </View>
+        </Marker>
+        <Marker coordinate={curLoc} title={'Packages Location'}>
+          <View style={styles.circle}>
+            <View style={styles.core} />
+            <View style={styles.stroke} />
+          </View>
+        </Marker>
         <MapViewDirections
           origin={curLoc}
           destination={dropLocationCords}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={6}
           optimizeWaypoints={true}
-          // onStart={(params) => {
-          //     console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
-          // }}
           onReady={result => {
-            // console.log(`Distance: ${result.distance} km`)
-            // console.log(`Duration: ${result.duration} min.`)
-
+            console.log(`Distance: ${result.distance} km`)
+            console.log(`Duration: ${result.duration} min.`)
             mapRef.current.fitToCoordinates(result.coordinates, {
               edgePadding: {
                 right: 30,
@@ -101,7 +93,7 @@ export default function ShowItemLocation(props: PropsArgs) {
           }}
         />
       </MapView>
-      <TopView>
+      {/* <TopView>
         <CasView>
           <TouchableOpacity onPress={() => console.log('back')}>
             <Icon
@@ -113,7 +105,36 @@ export default function ShowItemLocation(props: PropsArgs) {
             </Icon>
           </TouchableOpacity>
         </CasView>
-      </TopView>
+      </TopView> */}
     </MainControl>
   );
 }
+
+
+const styles = StyleSheet.create({
+  circle: {
+    width: 26,
+    height: 26,
+    borderRadius: 50,
+  },
+  stroke: {
+    backgroundColor: '#ffffff',
+    borderRadius: 50,
+    width: '100%',
+    height: '100%',
+    zIndex: 1,
+  },
+  core: {
+    backgroundColor: 'red',
+    width: 24,
+    position: 'absolute',
+    top: 1,
+    left: 1,
+    right: 1,
+    bottom: 1,
+    height: 24,
+    borderRadius: 50,
+    zIndex: 2,
+    margin: 0,
+  },
+});
