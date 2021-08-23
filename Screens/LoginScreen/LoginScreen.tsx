@@ -25,9 +25,9 @@ const LoginScreen = (props: {
 }) => {
   const dispatch = useDispatch();
   // const [email, setEmail] = useState('');
-  // const [email, setEmail] = useState('famosipe2010@gmail.com');
+  const [email, setEmail] = useState('famosipe2010@gmail.com');
   // const [email, setEmail] = useState('info.techjar@gmail.com');
-  const [email, setEmail] = useState('famosipeopeyemi@gmail.com');
+  // const [email, setEmail] = useState('famosipeopeyemi@gmail.com');
   const [password, setPassword] = useState('opeyemi');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [netWorkIsConnected, setNetWorkIsConnected] = useState<any>(false);
@@ -49,7 +49,7 @@ const LoginScreen = (props: {
       Toast.show('input username or password');
       return;
     }
-    if ( email || password) {
+    if (email || password) {
       let rjx = /^([a-zA-Z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2.8})?$/;
       let isValid = rjx.test(email);
       if (!isValid) {

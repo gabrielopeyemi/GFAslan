@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import TextInputu from './../../Components/TextInput/TextInput';
 import ChooseLocationInput from '../../Components/ChooseLocationInput/ChooseLocationInput';
@@ -13,8 +13,8 @@ import {
   HeaderRight,
 } from './AddTransactionScreen.styles';
 import Button from '../../Components/Button/Button';
-import {primaryColor} from '../../config';
-import {PropsArgs} from '../../Components/Types/PropsArgs';
+import { primaryColor } from '../../config';
+import { PropsArgs } from '../../Components/Types/PropsArgs';
 import AddTransactionFunction from './AddTransactionFunction';
 interface AddressArgs {
   lat: number;
@@ -22,20 +22,18 @@ interface AddressArgs {
   address: string;
 }
 function AddTransactionScreen(props: PropsArgs) {
-  const [packageName, setPackageName] = useState<string>('Hp Laptop');
-  const [packageDescription, setPackageDescription] = useState(
-    'Hp Evny 4654 laptop',
-  );
-  const [receiverPhoneNumber, setReceiverPhoneNumber] = useState('09041527357');
-  const [receiverName, setReceiverName] = useState('Mr Sola');
+  const [packageName, setPackageName] = useState<string>('');
+  const [packageDescription, setPackageDescription] = useState<string>('');
+  const [receiverPhoneNumber, setReceiverPhoneNumber] = useState<string>('');
+  const [receiverName, setReceiverName] = useState('');
   const [receiverLocation, setReceiverLocation] = useState<AddressArgs>({
     lat: 0,
     lng: 0,
     address: '',
   });
-  const receiverFetchLatLog = ({lat, lng, address}: AddressArgs) => {
-    console.log({latitude: lat, longitude: lng});
-    return setReceiverLocation({lat, lng, address});
+  const receiverFetchLatLog = ({ lat, lng, address }: AddressArgs) => {
+    console.log({ latitude: lat, longitude: lng });
+    return setReceiverLocation({ lat, lng, address });
   };
   const handleDone = async () => {
     try {
@@ -46,13 +44,13 @@ function AddTransactionScreen(props: PropsArgs) {
         receiverName,
         receiverPhoneNumber,
       });
-      console.log({responseLog: response.data.data._id});
+      console.log({ responseLog: response.data.data._id });
       if (response.status === 201) {
-        props.navigation.navigate('EachItem', {data: response.data.data._id});
+        props.navigation.navigate('EachItem', { data: response.data.data._id });
       }
     } catch (error) {
       const theError = error.response.data.message[0];
-      console.log({error: theError});
+      console.log({ error: theError });
       if (theError === 'destination should not be empty') {
         Toast.show('Please input receivers address');
         return;
@@ -69,7 +67,7 @@ function AddTransactionScreen(props: PropsArgs) {
         }}>
         <Header>
           <HeaderLeft
-            style={{fontFamily: "'Poppins', sans-serif", fontWeight: '700'}}>
+            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: '700' }}>
             Create new transaction
           </HeaderLeft>
           <HeaderRight>

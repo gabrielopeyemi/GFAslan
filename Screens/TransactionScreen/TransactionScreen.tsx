@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { Modal, Button, Stack, Center, NativeBaseProvider } from 'native-base';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View, RefreshControl } from 'react-native';
 import { Container } from '../../Assets/Styles/Auth.Styled';
 import { MainControl } from '../../Assets/Styles/Main.Styled';
 import TransactionCard from '../../Components/TransactionCard/TransactionCard';
@@ -19,12 +19,19 @@ import {
 import TransactionArgs from './Transaction.dto';
 import Icon from 'react-native-vector-icons/Ionicons';
 import store from '../../store';
+import { primaryColor } from '../../config';
 
 export default function TransactionScreen(props: any) {
   const [transactions, setTransactions] = React.useState<any[]>([]);
+  const [filteredTransaction, setFilteredTransaction] = React.useState<any[]>(
+    [],
+  );
   const [user, setUser] = React.useState<any>({});
+  const [search, setSearch] = React.useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
   React.useEffect(() => {
     setUser(store.getState().UserDetailReducer.UserDetail.userDetails);
+    getAllTransaction();
   }, []);
   const getAllTransaction = async () => {
     let permission = user.permission;
@@ -32,14 +39,17 @@ export default function TransactionScreen(props: any) {
       const response = await GetAllTransaction();
       console.log(response);
       setTransactions(response);
+      setFilteredTransaction(response);
     } catch (error) {
       console.log(error);
     }
   };
-  React.useEffect(() => {
-    getAllTransaction();
-  }, []);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    getAllTransaction();
+    setRefreshing(false);
+  };
 
   return (
     <MainControl>
@@ -60,7 +70,15 @@ export default function TransactionScreen(props: any) {
             </Icon.Button>
           </HeaderRight>
         </Header>
-        <CardDiv>
+        <ScrollView
+          horizontal={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={[`${primaryColor}`]}
+            />
+          }>
           {transactions.length === 0 ? (
             <TransactionView>
               <Text>No transaction yet</Text>
@@ -77,7 +95,7 @@ export default function TransactionScreen(props: any) {
               );
             })
           )}
-        </CardDiv>
+        </ScrollView>
       </Container>
     </MainControl>
   );

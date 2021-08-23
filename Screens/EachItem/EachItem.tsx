@@ -27,6 +27,10 @@ import { PropsArgs } from '../../Components/Types/PropsArgs';
 import { GetSingleItem } from './EachItemFunction';
 import { DetailArgs } from '../../Components/Types/ItemArgs';
 import store from '../../store';
+import { GetAllDriver } from './GetAllDriver';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
+import AssignDriverFunction from './AssignDriverFunction';
+import UpdateItemStatusFunction from './UpdateItemStatusFunction';
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.9222;
@@ -37,6 +41,8 @@ function EachItem(props: PropsArgs) {
   const [details, setDetails] = React.useState<DetailArgs | any>({});
   const [locations, setLocations] = React.useState<any>({});
   const [newStatus, setNewStatus] = React.useState('');
+  const [drivers, setDrivers] = React.useState<any>([]);
+  const [users, setUsers] = React.useState([]);
   const [color, setColor] = React.useState('');
   React.useEffect(() => {
     console.log({ props: props.route.params.data });
@@ -55,6 +61,23 @@ function EachItem(props: PropsArgs) {
         longitudeDelta: LONGITUDE_DELTA,
       },
     });
+    const GetAllUser = async () => {
+      try {
+        const response = await GetAllDriver();
+        setUsers(response.data);
+        const users: any = response.data;
+        users.map((user: any) => {
+          if (user.permission === 'driver') {
+            console.log({ Gabriel: user });
+            return setDrivers(user);
+          }
+        });
+        console.log({ UserList: users });
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    GetAllUser();
   }, []);
   React.useEffect(() => {
     console.log({ details });
@@ -112,11 +135,35 @@ function EachItem(props: PropsArgs) {
     store.getState().UserDetailReducer.UserDetail.userDetails.permission;
   console.log({ locations });
   // console.log({details})
-  const { status, name, description, destination, receiverDetails } = details;
+  const { status, name, description, destination, receiverDetails, _id } = details;
   console.log({ details });
-  const handleUpdate = () => {
+  const handleUpdate = async (itemValue: string) => {
+    setNewStatus(itemValue);
     if (permission === 'admin') {
-      console.log('lol');
+      const AssignData = {
+        driverId: itemValue,
+        itemId: _id,
+      };
+      console.log(AssignData);
+      AssignDriver(AssignData);
+      UpdateItemStatus();
+      return;
+    }
+  };
+  const AssignDriver = async (AssignData: any) => {
+    try {
+      const response = await AssignDriverFunction(AssignData);
+      console.log({ Response: response });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UpdateItemStatus = async () => {
+    try {
+      const res = await UpdateItemStatusFunction();
+      console.log({ ResGabriel: res });
+    } catch (error) {
+      console.log({ error });
     }
   };
   const [placement, setPlacement] = React.useState(undefined);
@@ -129,6 +176,32 @@ function EachItem(props: PropsArgs) {
   const handleStatusUpdate = () => {
     console.log('handleStatusUpdate');
   };
+  const ListValue = () => {
+    return (
+      <>
+        {users.map((user: any) => {
+          if (user.permission === 'driver') {
+            return (
+              <Select.Item
+                label={user.username}
+                value={user._id}
+                key={user._id}
+              />
+            );
+          }
+        })}
+        {/* <Select.Item label="Wallet" value="key0" />
+        <Select.Item label="ATM Card" value="key1" />
+        <Select.Item label="Debit Card" value="key2" />
+        <Select.Item label="Credit Card" value="key3" />
+        <Select.Item label="Net Banking" value="key4" /> */}
+      </>
+    );
+  };
+  if (!drivers) {
+    return <LoadingIndicator />;
+  }
+  console.log({ DriverLog: drivers });
   return (
     <Container>
       <Header>
@@ -210,15 +283,11 @@ function EachItem(props: PropsArgs) {
           <Modal.Header>Update Status</Modal.Header>
           <Modal.Body>
             <Select
-              placeholder={status} 
+              placeholder={drivers.username}
               selectedValue={newStatus}
               width={`${screen.width * 0.85}px`}
-              onValueChange={(itemValue: string) => setNewStatus(itemValue)}>
-              <Select.Item label="Wallet" value="key0" />
-              <Select.Item label="ATM Card" value="key1" />
-              <Select.Item label="Debit Card" value="key2" />
-              <Select.Item label="Credit Card" value="key3" />
-              <Select.Item label="Net Banking" value="key4" />
+              onValueChange={handleUpdate}>
+              <ListValue />
             </Select>
           </Modal.Body>
           <Modal.Footer>

@@ -1,11 +1,10 @@
 import { server } from '../../server';
 import store from '../../store';
 
-export const GetSingleItem = async (ID: any) => {
-  console.log({ ID });
+export const GetAllDriver = async () => {
   try {
     const response = await server.get({
-      url: `/items/id/${ID}`,
+      url: `/users`,
       token: store.getState().UserDetailReducer.UserDetail.token,
     });
     console.log({ response });
